@@ -409,15 +409,66 @@ namespace HelathCare53
         {
             // Create sample patients
             Patient omid = new Patient("Omid Najjar", "1992-09-25", "BC09155672", "0000", "", DateTime.Parse("2025-09-03"));
-            omid.Password = "omid123";
+            omid.Password = "omiD#123";
 
-            Patient lenore = new Patient("lenore Najjar", "2013-07-01", "BC09155678", "00000", "", DateTime.Parse("2022-09-03"));
-            lenore.Password = "LenoreNjr#";
-            
+            // Create the first patient object
+            Patient patient1 = new Patient(
+                "John Doe",
+                "1990-05-15",
+                "BC09155612",
+                "1234567890",
+                "mypassworD1@",
+                new DateTime(2024, 12, 31)
+            );
+
+            // Create the second patient object
+            Patient patient2 = new Patient(
+                "Jane Smith",
+                "1985-08-10",
+                "BC09155673",
+                "0987654321",
+                "anotherpassworD1@",
+                new DateTime(2023, 10, 15)
+            );
+
+            // Create the third patient object
+            Patient patient3 = new Patient(
+                "Alice Johnson",
+                "1995-03-25",
+                "BC09155675",
+                "5555555555",
+                "securepassworD1@",
+                new DateTime(2022, 06, 30)
+            );
+
+            // Create the fourth patient object
+            Patient patient4 = new Patient(
+                "Bob Thompson",
+                "1982-11-05",
+                "BC09155679",
+                "6666666666",
+                "p@ssw0rdA",
+                new DateTime(2025, 04, 15)
+            );
+
+            // Create the fifth patient object
+            Patient patient5 = new Patient(
+                "Sarah Wilson",
+                "1998-07-20",
+                "BC09155688",
+                "7777777777",
+                "strongPassword1@",
+                new DateTime(2023, 07, 01)
+            );
+
             // Add them to patients List
             patients.Add(omid);
-            patients.Add(lenore);
-
+            patients.Add(patient1);
+            patients.Add(patient2);
+            patients.Add(patient3);
+            patients.Add(patient4);
+            patients.Add(patient5);
+            
             // Create sample doctors below
             Doctor Ali = new Doctor("Dr. Ali Najjar", "D0915111");
             Doctor Arta = new Doctor("Dr. Eli Najjar", "09150090");
@@ -426,21 +477,150 @@ namespace HelathCare53
             doctors.Add(Ali);
             doctors.Add(Arta);
 
+
+            // Create sample 
+            Inquiry inquiry1 = new Inquiry(
+                "John Doe",
+                new DateTime(1990, 5, 15),
+                "123 Main St",
+                "john.doe@example.com",
+                "1234567890",
+                "9876543210",
+                "Fever, cough",
+                "2 days",
+                "None",
+                "Ibuprofen",
+                "None",
+                "No additional comments",
+                "I'm feeling unwell",
+                new DateTime(2024, 12, 31)
+            );
+
+            // Create the second object
+            Inquiry inquiry2 = new Inquiry(
+                "Jane Smith",
+                new DateTime(1985, 8, 10),
+                "456 Elm St",
+                "jane.smith@example.com",
+                "0987654321",
+                "0123456789",
+                "Sore throat",
+                "1 week",
+                "Asthma",
+                "Ventolin",
+                "None",
+                "No special instructions",
+                "I have a history of respiratory issues",
+                new DateTime(2023, 10, 15)
+            );
+
+            // Create the third object
+            Inquiry inquiry3 = new Inquiry(
+                "Alice Johnson",
+                new DateTime(1995, 3, 25),
+                "789 Oak St",
+                "alice.johnson@example.com",
+                "5555555555",
+                "6666666666",
+                "Headache",
+                "3 days",
+                "Migraine",
+                "Tylenol",
+                "None",
+                "Please call me for any updates",
+                "I frequently experience migraines",
+                new DateTime(2025, 6, 30)
+            );
             // Create sample appointments
-            Appointment appointment1 = new Appointment(omid, Ali, new DateTime(2023, 9, 10, 10, 30, 0), null, IllnessCategory.Orthopedics);
-            Appointment appointment2 = new Appointment(lenore, Arta, new DateTime(2023, 10, 10, 16, 0, 0), null, IllnessCategory.Orthopedics);
+            Appointment appointment1 = new Appointment(omid, Ali, new DateTime(2023, 9, 10, 10, 30, 0), inquiry1, IllnessCategory.Orthopedics);
+            Appointment appointment2 = new Appointment(lenore, Arta, new DateTime(2023, 10, 10, 16, 0, 0), inquiry2, IllnessCategory.Orthopedics);
 
             // Add to appointments List
             appointments.Add(appointment1);
             appointments.Add(appointment2);  
 
-            // Create sample locations
-            Location location1 = new Location("General Hospital", "555 Willingdon Ave, Burnaby BC", "604-111-1234");
-            Location location2 = new Location("Surrey health Hospital", "666 Somewher St, Surrey BC", "604-222-5678");
+            // Create the first location object
+            Location location1 = new Location(
+                "Hospital A",
+                "123 Main St",
+                "1234567890"
+            );
+
+            // Create the second location object
+            Location location2 = new Location(
+                "Hospital B",
+                "456 Elm St",
+                "0987654321"
+            );
+
+            // Create the third location object
+            Location location3 = new Location(
+                "Hospital C",
+                "789 Oak St",
+                "5555555555"
+            );
+
+            // Create the fourth location object
+            Location location4 = new Location(
+                "Hospital D",
+                "321 Pine St",
+                "7777777777"
+            );
+
+            // Create the fifth location object
+            Location location5 = new Location(
+                "Hospital E",
+                "987 Cedar St",
+                "9999999999"
+            );
+
+            // Create the sixth location object
+            Location location6 = new Location(
+                "Hospital F",
+                "654 Walnut St",
+                "1111111111"
+            );
+
+            // Create the seventh location object
+            Location location7 = new Location(
+                "Hospital G",
+                "234 Maple St",
+                "2222222222"
+            );
+
+            // Create the eighth location object
+            Location location8 = new Location(
+                "Hospital H",
+                "876 Birch St",
+                "3333333333"
+            );
+
+            // Create the ninth location object
+            Location location9 = new Location(
+                "Hospital I",
+                "543 Oak St",
+                "4444444444"
+            );
+
+            // Create the tenth location object
+            Location location10 = new Location(
+                "Hospital X",
+                "546 Oak St",
+                "4444444441"
+            );
 
             // and add locations to the List
             locations.Add(location1);
             locations.Add(location2);
+            locations.Add(location3);
+            locations.Add(location4);
+            locations.Add(location5);
+            locations.Add(location6);
+            locations.Add(location7);
+            locations.Add(location8);
+            locations.Add(location9);
+            locations.Add(location10);
+            
         }
         
         // Validate healthcare number in function below
