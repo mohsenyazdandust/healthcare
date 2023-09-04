@@ -15,6 +15,9 @@ namespace HelathCare53
         // List to store appoinments
         static List<Appointment> appointments =new List<Appointment>();
 
+        // List of inquirys
+        static List<Inquiry> inquiries =new List<Inquiry>();
+
         // List of locations
         static List<Location> locations = new List<Location>();
 
@@ -57,6 +60,48 @@ namespace HelathCare53
                 Patient = patient;
                 Doctor = doctor;
                 DateTime = dateTime;
+            }
+        }
+
+        class Inquiry
+        {
+            public string FullName {get; set;}
+            public DateTime DateOfBirth {get; set;}
+            public string Address {get; set;}
+            public string Email {get; set;}
+            public string PhoneNumber {get; set;}
+            public string EmergencyPhoneNumber {get; set;}
+            public string Symptoms {get; set;}
+            public string DurationOfSymptoms {get; set;}
+            public string PreviousMedicalHistory {get; set;}
+            public string CurrentMedications {get; set;}
+            public string Allergies {get; set;}
+            public string AdditonalComments {get; set;}
+            public string PatientExplanation {get; set;}
+            public DateTime BCHealthcardExpiryDate {get; set;}
+        
+            public Inquiry(
+                string FullName, DateTime DateOfBirth, string Address,
+                string Email, string PhoneNumber, string EmergencyPhoneNumber,
+                string Symptoms, string DurationOfSymptoms, string PreviousMedicalHistory,
+                string CurrentMedications, string Allergies, string AdditonalComments,
+                string PatientExplanation, DateTime BCHealthcardExpiryDate
+            )
+            {
+                FullName = FullName;
+                DateOfBirth = DateOfBirth;
+                Address = Address;
+                Email = Email;
+                PhoneNumber = PhoneNumber;
+                EmergencyPhoneNumber = EmergencyPhoneNumber;
+                Symptoms = Symptoms;
+                DurationOfSymptoms = DurationOfSymptoms;
+                PreviousMedicalHistory = PreviousMedicalHistory;
+                CurrentMedications = CurrentMedications;
+                Allergies = Allergies;
+                AdditonalComments = AdditonalComments;
+                PatientExplanation = PatientExplanation;
+                BCHealthcardExpiryDate = BCHealthcardExpiryDate;
             }
         }
 
@@ -369,8 +414,57 @@ namespace HelathCare53
         // Submit Inquiry
         static void SubmitInquiry(Patient patient)
         {
-            Console.Write("Please, enter Inquiry: ");
-            string inquiry = Console.ReadLine();
+            Console.Write("Please, enter your address: ");
+            string address = Console.ReadLine();
+
+            Console.Write("Please, enter your email: ");
+            string email = Console.ReadLine();
+
+            Console.Write("Please, enter your emergency phone number: ");
+            string emergencyphonenumber = Console.ReadLine();
+
+            Console.Write("Please, enter your symptoms: ");
+            string symptoms = Console.ReadLine();
+
+            Console.Write("Please, enter duration of the your symptoms: ");
+            string durationofsymptoms = Console.ReadLine();
+
+            Console.Write("Please, enter your previous medical history: ");
+            string previousmedicalhistory = Console.ReadLine();
+
+            Console.Write("Please, enter your current medications: ");
+            string currentmedications = Console.ReadLine();
+
+            Console.Write("Please, enter your allergies: ");
+            string allergies = Console.ReadLine();
+
+            Console.Write("Please, enter additional comments: ");
+            string additionalcomments = Console.ReadLine();
+
+            Console.Write("Please, enter your reason for booking an appoinment ");
+            string patientexplanation = Console.ReadLine();
+
+            Console.Write("Please, enter your BC healthcard expiry date (YYYY-MM-DD): ");
+            string bchealthcardexpirydate = Console.ReadLine();
+
+            Inquiry inquiry = new Inquiry(
+                patient.Name,
+                patient.DOB,
+                address,
+                email,
+                patient.PhoneNumber,
+                emergencyphonenumber,
+                symptoms,
+                durationofsymptoms,
+                previousmedicalhistory,
+                currentmedications,
+                allergies,
+                additionalcomments,
+                patientexplanation,
+                DateTime.Parse(bchealthcardexpirydate)
+            );
+
+            inquiries.Add(inquiry);
 
             Console.WriteLine("Inquiry submitted successfully");
         }
