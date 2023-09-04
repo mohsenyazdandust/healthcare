@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
@@ -117,27 +116,27 @@ namespace HelathCare53
             public DateTime BCHealthcardExpiryDate {get; set;}
         
             public Inquiry(
-                string FullName, DateTime DateOfBirth, string Address,
-                string Email, string PhoneNumber, string EmergencyPhoneNumber,
-                string Symptoms, string DurationOfSymptoms, string PreviousMedicalHistory,
-                string CurrentMedications, string Allergies, string AdditonalComments,
-                string PatientExplanation, DateTime BCHealthcardExpiryDate
+                string fullName, DateTime dateOfBirth, string address,
+                string email, string phoneNumber, string emergencyPhoneNumber,
+                string symptoms, string durationOfSymptoms, string previousMedicalHistory,
+                string currentMedications, string allergies, string additonalComments,
+                string patientExplanation, DateTime bCHealthcardExpiryDate
             )
             {
-                FullName = FullName;
-                DateOfBirth = DateOfBirth;
-                Address = Address;
-                Email = Email;
-                PhoneNumber = PhoneNumber;
-                EmergencyPhoneNumber = EmergencyPhoneNumber;
-                Symptoms = Symptoms;
-                DurationOfSymptoms = DurationOfSymptoms;
-                PreviousMedicalHistory = PreviousMedicalHistory;
-                CurrentMedications = CurrentMedications;
-                Allergies = Allergies;
-                AdditonalComments = AdditonalComments;
-                PatientExplanation = PatientExplanation;
-                BCHealthcardExpiryDate = BCHealthcardExpiryDate;
+                FullName = fullName;
+                DateOfBirth = dateOfBirth;
+                Address = address;
+                Email = email;
+                PhoneNumber = phoneNumber;
+                EmergencyPhoneNumber = emergencyPhoneNumber;
+                Symptoms = symptoms;
+                DurationOfSymptoms = durationOfSymptoms;
+                PreviousMedicalHistory = previousMedicalHistory;
+                CurrentMedications = currentMedications;
+                Allergies = allergies;
+                AdditonalComments = additonalComments;
+                PatientExplanation = patientExplanation;
+                BCHealthcardExpiryDate = bCHealthcardExpiryDate;
             }
         }
 
@@ -172,7 +171,10 @@ namespace HelathCare53
 
             while(true)
             {
+                Console.Clear(); // Clear Screen
+
                 // Login options
+                
                 Console.WriteLine("1. Patient Login");
                 Console.WriteLine("2. Doctor Login");
                 Console.WriteLine("3. Staff Login");
@@ -533,7 +535,7 @@ namespace HelathCare53
             );
             // Create sample appointments
             Appointment appointment1 = new Appointment(omid, Ali, new DateTime(2023, 9, 10, 10, 30, 0), inquiry1, IllnessCategory.Orthopedics);
-            Appointment appointment2 = new Appointment(lenore, Arta, new DateTime(2023, 10, 10, 16, 0, 0), inquiry2, IllnessCategory.Orthopedics);
+            Appointment appointment2 = new Appointment(patient1, Arta, new DateTime(2023, 10, 10, 16, 0, 0), inquiry2, IllnessCategory.Orthopedics);
 
             // Add to appointments List
             appointments.Add(appointment1);
