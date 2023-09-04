@@ -67,30 +67,27 @@ namespace HelathCare53
 
         class Appointment
         {
-            enum Illness{
-                General_Check_Up ,
-                Dermatology , 
-
-                Orthopedics , 
-
-                Cardiology 
-
-
-
-
+            enum Illness
+            {
+                General_Check_Up,
+                Dermatology,
+                Orthopedics, 
+                Cardiology
             }
+
             public Patient Patient {get; set;}
             public Doctor Doctor {get; set;}
             public DateTime DateTime {get; set;}
             public Inquiry Inquiry {get; set;}
-            public Illness illness{get ; set}
+            public Illness Illness{get ; set}
 
-            public Appointment(Patient patient, Doctor doctor, DateTime dateTime, Inquiry inquiry)
+            public Appointment(Patient patient, Doctor doctor, DateTime dateTime, Inquiry inquiry, Illness illness)
             {
                 Patient = patient;
                 Doctor = doctor;
                 DateTime = dateTime;
                 Inquiry = inquiry;
+                Illness = illness;
             }
         }
 
@@ -384,8 +381,8 @@ namespace HelathCare53
             doctors.Add(Arta);
 
             // Create sample appointments
-            Appointment appointment1 = new Appointment(omid, Ali, new DateTime(2023, 9, 10, 10, 30, 0), null);
-            Appointment appointment2 = new Appointment(lenore, Arta, new DateTime(2023, 10, 10, 16, 0, 0), null);
+            Appointment appointment1 = new Appointment(omid, Ali, new DateTime(2023, 9, 10, 10, 30, 0), null, null);
+            Appointment appointment2 = new Appointment(lenore, Arta, new DateTime(2023, 10, 10, 16, 0, 0), null, null);
 
             // Add to appointments List
             appointments.Add(appointment1);
@@ -562,9 +559,13 @@ namespace HelathCare53
 
             DateTime dateTime = DateTime.Now.AddDays(choice -1);
 
+            Console.WriteLine("Please, enter your illness category: (General_Check_Up, Dermatology, Orthopetic, Cardiology)");
+            string category = Console.ReadLine();
+            Illness illness = Enum.Parse(typeof(Illness), category);
+
             Inquiry inquiry = SubmitInquiry(patient);
 
-            Appointment appointment = new Appointment(patient, doctor, dateTime, inquiry);
+            Appointment appointment = new Appointment(patient, doctor, dateTime, inquiry, illness);
 
             appointments.Add(appointment);
 
