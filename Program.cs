@@ -393,7 +393,19 @@ namespace HelathCare53
             Patient patient = new Patient(name, dob, healthCareNum);
 
             Console.Write("Please enter password: ");
-            string password = Console.ReadLine();
+            while(true)
+            {
+                string password = Console.ReadLine();
+
+                if(ValidatePassword(password)){
+                    break;
+                }
+                else 
+                {
+                    Console.Write("your password must included combination of lower case and upper case and number and special characters, also it must be at least 8 charachter and maximum 16 character")
+                }
+
+            }
 
             patient.Password = password;
 
@@ -416,6 +428,13 @@ namespace HelathCare53
 
                 string pattern = @"^09[0-9]{9}$" ; 
                 return Regex.IsMatch(phoneNumber ,pattern );
+        }
+
+        static bool ValidatePassword(string password){
+
+                string pattern = @"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,16}$";
+
+                return Regex.IsMatch(password ,pattern );
         }
 
         // Book Appointment function
