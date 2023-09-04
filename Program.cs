@@ -389,10 +389,10 @@ namespace HelathCare53
         static void Initialize()
         {
             // Create sample patients
-            Patient omid = new Patient("Omid Najjar", "1992-09-25", "BC09151234");
+            Patient omid = new Patient("Omid Najjar", "1992-09-25", "BC09151234", "0000", "", DateTime.Parse("2022-09-03"));
             omid.Password = "OmidNjr4!@#";
 
-            Patient lenore = new Patient("lenore Najjar", "2013-07-01", "BC09155678");
+            Patient lenore = new Patient("lenore Najjar", "2013-07-01", "BC09155678", "00000", "", DateTime.Parse("2022-09-03"));
             lenore.Password = "LenoreNjr#";
             
             // Add them to patients List
