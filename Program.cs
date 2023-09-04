@@ -12,9 +12,9 @@ namespace HelathCare53
 
         // List to store doctor profiles
         static List<Doctor> doctors = new List<Doctor>();
-        // List to store staff profiles 
-         static List<Staff> staffs = new List<Staff>();
 
+        // List to store staff profiles 
+        static List<Staff> staffs = new List<Staff>();
 
         // List to store appoinments
         static List<Appointment> appointments =new List<Appointment>();
