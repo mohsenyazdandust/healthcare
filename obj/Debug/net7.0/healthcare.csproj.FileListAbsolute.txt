@@ -1,0 +1,14 @@
+F:\healthcare\bin\Debug\net7.0\healthcare.exe
+F:\healthcare\bin\Debug\net7.0\healthcare.deps.json
+F:\healthcare\bin\Debug\net7.0\healthcare.runtimeconfig.json
+F:\healthcare\bin\Debug\net7.0\healthcare.dll
+F:\healthcare\bin\Debug\net7.0\healthcare.pdb
+F:\healthcare\obj\Debug\net7.0\healthcare.GeneratedMSBuildEditorConfig.editorconfig
+F:\healthcare\obj\Debug\net7.0\healthcare.AssemblyInfoInputs.cache
+F:\healthcare\obj\Debug\net7.0\healthcare.AssemblyInfo.cs
+F:\healthcare\obj\Debug\net7.0\healthcare.csproj.CoreCompileInputs.cache
+F:\healthcare\obj\Debug\net7.0\healthcare.dll
+F:\healthcare\obj\Debug\net7.0\refint\healthcare.dll
+F:\healthcare\obj\Debug\net7.0\healthcare.pdb
+F:\healthcare\obj\Debug\net7.0\healthcare.genruntimeconfig.cache
+F:\healthcare\obj\Debug\net7.0\ref\healthcare.dll
