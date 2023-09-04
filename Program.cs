@@ -197,6 +197,7 @@ namespace HelathCare53
                 CreatePatientProfile(healthCareNum);
             }
         }
+
         static void AskRecoveryOption(){
             Console.Write("Do you want to send the recover password to Your phone number?");
             Console.Write("1. Yes");
@@ -250,8 +251,47 @@ namespace HelathCare53
         static void DoctorLogin()
         {
             // Doctor login logic here by calling its own external function within this function
-            DoctorMenu();
+            Console.Write("Please, enter your ID: ");
+            string id = Console.ReadLine();
+
+            // Exiting doctor
+            if (IsExistingDoctor(id))
+            {
+                Doctor doctor = GetDoctor(id);
+                DoctorMenu();
+            }
+            else
+            {
+                Console.WriteLine("Invalid ID, try again...");
+            }
         }
+
+        // Check if patient exists
+        static bool IsExistingDoctor(string id)
+        {
+            foreach (Doctor doctor in doctors)
+            {
+                if (doctor.ID == id)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+    
+        static Doctor GetDoctor(string id)  // Get patint object
+        {
+            foreach (Doctor doctor in doctors)
+            {
+                if (doctor.ID == id)
+                {
+                    return doctor;
+                }
+            }
+            return null;
+        }
+
+        
         static void StaffLogin()
         {
             StaffMenu();
