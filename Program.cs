@@ -60,7 +60,7 @@ namespace HelathCare53
             }
         }
 
-         class Staff
+        class Staff
         {
             public string Name {get; set;}
             public string StaffId {get; set;}
@@ -72,23 +72,24 @@ namespace HelathCare53
             }
         }
 
+        enum IllnessCategory
+        {
+            General_Check_Up,
+            Dermatology,
+            Orthopedics, 
+            Cardiology
+        }
+
         class Appointment
         {
-            enum Illness
-            {
-                General_Check_Up,
-                Dermatology,
-                Orthopedics, 
-                Cardiology
-            }
-
             public Patient Patient {get; set;}
             public Doctor Doctor {get; set;}
             public DateTime DateTime {get; set;}
             public Inquiry Inquiry {get; set;}
-            public Illness Illness{get ; set}
+            public IllnessCategory Illness{get ; set;}
+            public Result Result {get; set;}
 
-            public Appointment(Patient patient, Doctor doctor, DateTime dateTime, Inquiry inquiry, Illness illness)
+            public Appointment(Patient patient, Doctor doctor, DateTime dateTime, Inquiry inquiry, IllnessCategory illness)
             {
                 Patient = patient;
                 Doctor = doctor;
@@ -155,8 +156,12 @@ namespace HelathCare53
         }        
 
         class Result {
-             public string Details {get ; set}
-             
+            public string Details {get; set;}
+
+            public Result(string details)
+            {
+                Details = details;
+            }
         }
     
 
@@ -256,9 +261,9 @@ namespace HelathCare53
         }
 
         static void AskRecoveryOption(){
-            Console.Write("Do you want to send the recover password to Your phone number?");
-            Console.Write("1. Yes");
-            Console.Write("2. No");
+            Console.WriteLine("Do you want to send the recover password to Your phone number?");
+            Console.WriteLine("1. Yes");
+            Console.WriteLine("2. No");
             int answer =  Int32.Parse(Console.ReadLine());
 
             if (answer==1)
@@ -274,9 +279,8 @@ namespace HelathCare53
             {
                 // Patient menu option
                 Console.WriteLine("1. Book Appoinment");
-                Console.WriteLine("2. Submit Inquiry");
-                Console.WriteLine("3. Update Profile");
-                Console.WriteLine("4. Review Appoitnents")
+                Console.WriteLine("2. Update Profile");
+                Console.WriteLine("3. Review Appoitnents");
                 Console.WriteLine("0. Logout");
 
                 int choice = Int32.Parse(Console.ReadLine());
@@ -286,20 +290,19 @@ namespace HelathCare53
                     case 1:
                         BookAppoinment(patient);
                         break;
-                    
+                                        
                     case 2:
-                        SubmitInquiry(patient);
-                        break;
-                    
-                    case 3:
                         UpdateProfile(patient);
                         break;
                     
+                    case 3:
+                        ViewAppointmentsForPatient(patient);
+                        break;
+
                     case 0:
                         Console.WriteLine("Logging out...");
                         return;
-                    case 4:
-                            ViewAppointmentsForPatient(patient);
+                
                     default:
                         Console.WriteLine("Invalid choice ");
                         continue;
@@ -310,9 +313,8 @@ namespace HelathCare53
 
              for (int i = 0; i < appointments.Count; i++)
             {
-                if (appoinments[i].patient == patient  ){
-                    Console.WriteLine($"{appointments[i].Doctor} : {appointments[i].Result}")
-                
+                if (appointments[i].Patient == patient  ){
+                    Console.WriteLine($"{appointments[i].Doctor} : {appointments[i].Result}");
                 }
             }
         }
@@ -327,7 +329,7 @@ namespace HelathCare53
             if (IsExistingDoctor(id))
             {
                 Doctor doctor = GetDoctor(id);
-                DoctorMenu();
+                DoctorMenu(doctor);
             }
             else
             {
@@ -371,7 +373,7 @@ namespace HelathCare53
             if (IsExistingStaff(id))
             {
                 Staff staff = GetStaff(id);
-                StaffMenu();
+                StaffMenu(staff);
             }
             else
             {
@@ -390,7 +392,7 @@ namespace HelathCare53
             }
             return false;
         }
-        static Doctor GetStaff(string id)  // Get staff object
+        static Staff GetStaff(string id)  // Get staff object
         {
             foreach (Staff staff in staffs)
             {
@@ -406,8 +408,8 @@ namespace HelathCare53
         static void Initialize()
         {
             // Create sample patients
-            Patient omid = new Patient("Omid Najjar", "1992-09-25", "BC09151234", "0000", "", DateTime.Parse("2022-09-03"));
-            omid.Password = "OmidNjr4!@#";
+            Patient omid = new Patient("Omid Najjar", "1992-09-25", "BC09155672", "0000", "", DateTime.Parse("2025-09-03"));
+            omid.Password = "omid123";
 
             Patient lenore = new Patient("lenore Najjar", "2013-07-01", "BC09155678", "00000", "", DateTime.Parse("2022-09-03"));
             lenore.Password = "LenoreNjr#";
@@ -425,8 +427,8 @@ namespace HelathCare53
             doctors.Add(Arta);
 
             // Create sample appointments
-            Appointment appointment1 = new Appointment(omid, Ali, new DateTime(2023, 9, 10, 10, 30, 0), null, null);
-            Appointment appointment2 = new Appointment(lenore, Arta, new DateTime(2023, 10, 10, 16, 0, 0), null, null);
+            Appointment appointment1 = new Appointment(omid, Ali, new DateTime(2023, 9, 10, 10, 30, 0), null, IllnessCategory.Orthopedics);
+            Appointment appointment2 = new Appointment(lenore, Arta, new DateTime(2023, 10, 10, 16, 0, 0), null, IllnessCategory.Orthopedics);
 
             // Add to appointments List
             appointments.Add(appointment1);
@@ -488,6 +490,9 @@ namespace HelathCare53
         // Create patient profile
         static void CreatePatientProfile(string healthCareNum)
         {
+            string password = "";
+            string phoneNumber = "";
+
             Console.Write("Please, enter your name (patient): ");
             string name = Console.ReadLine();
 
@@ -497,14 +502,14 @@ namespace HelathCare53
             Console.Write("Please enter password: ");
             while(true)
             {
-                string password = Console.ReadLine();
+                password = Console.ReadLine();
 
                 if(ValidatePassword(password)){
                     break;
                 }
                 else 
                 {
-                    Console.Write("your password must included combination of lower case and upper case and number and special characters, also it must be at least 8 charachter and maximum 16 character")
+                    Console.Write("your password must included combination of lower case and upper case and number and special characters, also it must be at least 8 charachter and maximum 16 character");
                 }
 
             }
@@ -512,7 +517,7 @@ namespace HelathCare53
             while (true)
             {
                 Console.Write("Please enter your recover phone number:");
-                string phoneNumber = Console.ReadLine();
+                phoneNumber = Console.ReadLine();
                 
                 if(ValidatePhoneNumber(phoneNumber)){
                     break;
@@ -523,12 +528,14 @@ namespace HelathCare53
             }
 
             Console.WriteLine("Please enter your healthcard expration date");
+            DateTime bcexpire = DateTime.Now;    
             while (true)
             {
                 try
                 {
                     string bchealthcardexpirydate = Console.ReadLine();
-                    DateTime bcexpire = DateTime.Parse(bchealthcardexpirydate);                  
+                    bcexpire = DateTime.Parse(bchealthcardexpirydate);    
+                    break;              
                 }
                 catch (System.Exception)
                 {
@@ -598,10 +605,9 @@ namespace HelathCare53
             Console.WriteLine("Please, select a date and time: ");
             
             // Display list of available dates and times
-            for (int i = 0; i < 5; i++)
+            for (int i = 1; i <= 5; i++)
             {
-                Console.WriteLine($"{i + 1}. {DateTime.Now.AddDays(i).ToString("yyyy-MM-dd")} 10:30 AM");
-                Console.WriteLine($"{i + 2}. {DateTime.Now.AddDays(i).ToString("yyyy-MM-dd")} 2:00 PM");
+                Console.WriteLine($"{i}. {DateTime.Now.AddDays(i).ToString("yyyy-MM-dd")} 10:30 AM");
             }
 
             choice = Int32.Parse(Console.ReadLine());
@@ -613,12 +619,34 @@ namespace HelathCare53
                 return;
             }
 
-            DateTime dateTime = DateTime.Now.AddDays(choice -1);
+            DateTime dateTime = DateTime.Now.AddDays(choice);
 
-            Console.WriteLine("Please, enter your illness category: (General_Check_Up, Dermatology, Orthopetic, Cardiology)");
-            string category = Console.ReadLine();
-            Illness illness = Enum.Parse(typeof(Illness), category);
+            Console.WriteLine("Please, enter your illness category:");
+            Console.WriteLine("1. General Check Up");
+            Console.WriteLine("2. Dermatology");
+            Console.WriteLine("3. Orthopedics");
+            Console.WriteLine("4. Cardiology");
 
+            choice = Int32.Parse(Console.ReadLine());
+            IllnessCategory illness;
+            
+            switch(choice){
+                    case 1 : 
+                            illness = IllnessCategory.General_Check_Up;
+                        break;
+                    case 2 : 
+                        illness = IllnessCategory.Dermatology;
+                        break;
+                    case 3 : 
+                           illness = IllnessCategory.Orthopedics;
+                        break;
+                    case 4 : 
+                         illness = IllnessCategory.Cardiology;
+                        break;
+                    default : 
+                            illness = IllnessCategory.General_Check_Up;
+                            break;
+            }
             Inquiry inquiry = SubmitInquiry(patient);
 
             Appointment appointment = new Appointment(patient, doctor, dateTime, inquiry, illness);
@@ -662,12 +690,15 @@ namespace HelathCare53
             string patientexplanation = Console.ReadLine();
 
             Console.Write("Please, enter your BC healthcard expiry date (YYYY-MM-DD): ");
+            DateTime bcexpire = DateTime.Now;    
+
             while (true) 
             {
                 try
                 {
                     string bchealthcardexpirydate = Console.ReadLine();
-                    DateTime bcexpire = DateTime.Parse(bchealthcardexpirydate);                  
+                    bcexpire = DateTime.Parse(bchealthcardexpirydate);
+                    break;          
                 }
                 catch (System.Exception)
                 {
@@ -710,7 +741,7 @@ namespace HelathCare53
             Console.WriteLine("Profile updated successfully");
         }
 
-        static void DoctorMenu()
+        static void DoctorMenu(Doctor doctor)
         {
             while(true)
             {
@@ -724,11 +755,11 @@ namespace HelathCare53
                 switch (choice)
                 {
                     case 1:
-                        ViewAppointments();
+                        ViewAppointments(doctor);
                         break;
 
                     case 2:
-                        UpdateDoctorProfile();
+                        UpdateDoctorProfile(doctor);
                         break;
 
                      case 0:
@@ -755,14 +786,15 @@ namespace HelathCare53
         }
 
         // View Appointments
-        static void ViewAppointments()
+        static void ViewAppointments(Doctor doctor)
         {
-            Console.WriteLine("Select an appointment");
+            Console.WriteLine("Select an appointment ID");
 
             // Display list of appointments
             for (int i = 0; i < appointments.Count; i++)
             {
-                Console.WriteLine($"{i + 1}. {appointments[i].Patient.Name} - {appointments[i].DateTime.ToString("yyyy-MM-dd")} {appointments[i].DateTime.ToString("hh:mm:tt")}");
+                if (appointments[i].Doctor == doctor)
+                    Console.WriteLine($"ID: {i + 1}. {appointments[i].Patient.Name} - {appointments[i].DateTime.ToString("yyyy-MM-dd")}");
             }
 
             int choice = Int32.Parse(Console.ReadLine());
@@ -774,26 +806,23 @@ namespace HelathCare53
                 return;
             }
 
-            Appointment appointment = appointments[choice -1];
+            Appointment appointment = appointments[choice - 1];
 
             Console.WriteLine($"Patient: {appointment.Patient.Name}");
             Console.WriteLine($"Date: {appointment.DateTime.ToString("yyyy-MM-dd")}");
-            Console.WriteLine($"Time: {appointment.DateTime.ToString("hh:mm:tt")}");
             Console.WriteLine($"Location: {locations[0].Name}");
 
-            Console.WriteLine("For review patient's inquiry enter 1: ");
-            Console.WriteLine("For update appoitment result enter 2: ");
-
+            Console.WriteLine("1. Review Patient's Inquiry");
+            Console.WriteLine("2. Update Appoitment Result");
             choice = Int32.Parse(Console.ReadLine());
 
             switch(choice){
-
-            case 1 :
+            case 1:
             
                 Console.WriteLine($"Date of Birth: {appointment.Inquiry.DateOfBirth}");
                 Console.WriteLine($"Address: {appointment.Inquiry.Address}");
                 Console.WriteLine($"Email: {appointment.Inquiry.Email}");
-                Console.WriteLine($"Phone Number: {appointment.Inquiry.PhoneNummber}");
+                Console.WriteLine($"Phone Number: {appointment.Inquiry.PhoneNumber}");
                 Console.WriteLine($"Emergency Phone Number: {appointment.Inquiry.EmergencyPhoneNumber}");
                 Console.WriteLine($"Symptoms: {appointment.Inquiry.Symptoms}");
                 Console.WriteLine($"Duration of Symptoms: {appointment.Inquiry.DurationOfSymptoms}");
@@ -807,37 +836,22 @@ namespace HelathCare53
                 Console.WriteLine($"BC Healthcard Expiry Date: {appointment.Inquiry.BCHealthcardExpiryDate}");
                 break;
 
-            case 2 : 
-                    Console.Write("Please enter the  details about appointment result")
-                    string details = Console.ReadLine();
-                    Result result = new Result(details);
-                    break;
-
-            case 3 : 
-                    Cosnole.Write("the input is mismatch !")       
-
+            case 2: 
+                Console.Write("Please enter the details about appointment result: ");
+                string details = Console.ReadLine();
+                Result result = new Result(details);
+                appointment.Result = result;
+                break;
+            default: 
+                Console.Write("the input is mismatch !"); 
+                break;    
             }
             
 
         }
 
-        static void UpdateProfile() // //////////////////
-        {
-            Console.Write("Enter your name: (doctor) ");
-            string name = Console.ReadLine();
-
-            Console.Write("Enter doctor ID: ");
-            string id = Console.ReadLine();
-
-            Doctor doctor = new Doctor(name, id);
-
-            doctors.Add(doctor);
-
-            Console.WriteLine("Profile updated successfully");
-        }
-
         // Staff menu
-        static void StaffMenu()
+        static void StaffMenu(Staff staff)
         {
             while(true)
             {
@@ -850,7 +864,7 @@ namespace HelathCare53
                 switch(choice)
                 {
                     case 1:
-                        StaffUpdateProfile();
+                        StaffUpdateProfile(staff);
                         break;
                 
                     case 0:
@@ -863,17 +877,12 @@ namespace HelathCare53
                 }
             }
         }
-        static void StaffUpdateProfile()
+        static void StaffUpdateProfile(Staff staff)
         {
             Console.Write("Enter your name: (Staff) ");
             string name = Console.ReadLine();
 
-            Console.Write("Enter Staff ID: ");
-            string id = Console.ReadLine();
-
-            Staff staff = new Staff(name, id);
-
-            staffs.Add(staff);
+            staff.Name = name;
 
             Console.WriteLine("Profile updated successfully");
         }
