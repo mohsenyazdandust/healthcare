@@ -28,12 +28,16 @@ namespace HelathCare53
             public DateTime DOB {get; set;}
             public string HealthcareNumber {get; set;}
             public string Password {get; set;} = "";
+            
+            public string PhoneNumber{get ; set } = ""
 
-            public Patient(string name, string dob, string healthCareNum)
+
+            public Patient(string name, string dob, string healthCareNum , string phoneNumber)
             {
                 Name = name;
                 DOB = DateTime.Parse(dob);
                 HealthcareNumber = healthCareNum;
+                PhoneNumber = phoneNumber
             }
         }
 
@@ -181,6 +185,8 @@ namespace HelathCare53
                 if (patient.Password != password)
                 {
                     Console.WriteLine("Invalid password");
+                
+                    AskRecoveryOption()
                     return;
                 }
                 PatientMenu(patient);
@@ -191,6 +197,21 @@ namespace HelathCare53
                 Console.WriteLine("Creating new patient profile...");
                 CreatePatientProfile(healthCareNum);
             }
+        }
+        static void AskRecoveryOption(){
+            Console.Write("do you want to send the recover password to Your phone number ?")
+            Console.Write("1. Yes !")
+            Console.Write("2. No")
+            int answer =  Console.ReadLine()
+
+            if (answer==1)
+            {
+                Console.Write("the code was sent !")
+            }
+            else return
+
+
+    
         }
 
         static void PatientMenu(Patient patient)
@@ -310,7 +331,7 @@ namespace HelathCare53
             }
             return false;
         }
-        
+    
         static Patient GetPatient(string healthCareNum)  // Get patint object
         {
                 foreach (Patient patient in patients)
@@ -386,7 +407,7 @@ namespace HelathCare53
 
             Console.WriteLine("Please, select a date and time: ");
             
-            // Dsplay list of available dates and times
+            // Display list of available dates and times
             for (int i = 0; i < 5; i++)
             {
                 Console.WriteLine($"{i + 1}. {DateTime.Now.AddDays(i).ToString("yyyy-MM-dd")} 10:30 AM");
@@ -491,6 +512,7 @@ namespace HelathCare53
                 // Doctor menu options 
                 Console.WriteLine("1. View Appointments");
                 Console.WriteLine("2. Update Profile");
+                Console.WriteLine("3. ")
                 Console.WriteLine("0. Logout");
 
                 int choice = Int32.Parse(Console.ReadLine());
