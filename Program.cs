@@ -12,9 +12,9 @@ namespace HelathCare53
 
         // List to store doctor profiles
         static List<Doctor> doctors = new List<Doctor>();
-        // List to store staff profiles 
-         static List<Staff> staffs = new List<Staff>();
 
+        // List to store staff profiles 
+        static List<Staff> staffs = new List<Staff>();
 
         // List to store appoinments
         static List<Appointment> appointments =new List<Appointment>();
@@ -28,16 +28,23 @@ namespace HelathCare53
             public string Name {get; set;}
             public DateTime DOB {get; set;}
             public string HealthcareNumber {get; set;}
-            public string Password {get; set;} = "";
-            public string PhoneNumber{get ; set } = ""
+            public string Password {get; set;}
+            public string PhoneNumber{get; set;}
+            public DateTime BCHealthcardExpiryDate {get; set;}
 
 
-            public Patient(string name, string dob, string healthCareNum , string phoneNumber)
+
+            public Patient(
+                string name, string dob, string healthCareNum,
+                string phoneNumber, string password, DateTime bc
+            )
             {
                 Name = name;
                 DOB = DateTime.Parse(dob);
                 HealthcareNumber = healthCareNum;
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber;
+                Password = password;
+                BCHealthcardExpiryDate = bc;
             }
         }
 
@@ -67,30 +74,27 @@ namespace HelathCare53
 
         class Appointment
         {
-            enum Illness{
-                General_Check_Up ,
-                Dermatology , 
-
-                Orthopedics , 
-
-                Cardiology 
-
-
-
-
+            enum Illness
+            {
+                General_Check_Up,
+                Dermatology,
+                Orthopedics, 
+                Cardiology
             }
+
             public Patient Patient {get; set;}
             public Doctor Doctor {get; set;}
             public DateTime DateTime {get; set;}
             public Inquiry Inquiry {get; set;}
-            public Illness illness{get ; set}
+            public Illness Illness{get ; set}
 
-            public Appointment(Patient patient, Doctor doctor, DateTime dateTime, Inquiry inquiry)
+            public Appointment(Patient patient, Doctor doctor, DateTime dateTime, Inquiry inquiry, Illness illness)
             {
                 Patient = patient;
                 Doctor = doctor;
                 DateTime = dateTime;
                 Inquiry = inquiry;
+                Illness = illness;
             }
         }
 
@@ -216,18 +220,38 @@ namespace HelathCare53
                 Patient patient = GetPatient(healthCareNum);
                 if (patient.Password != password)
                 {
-                    Console.WriteLine("Invalid password");
+                    Console.WriteLine("Invalid password!");
                 
                     AskRecoveryOption();
                     return;
                 }
+
+                if (IsBCExpire(patient))
+                {
+                    Console.WriteLine("Your Health Card has been expired!");
+                    return;
+                }
+
                 PatientMenu(patient);
-                // New patient
             }
-            else
+            else // New patient
             {
                 Console.WriteLine("Creating new patient profile...");
                 CreatePatientProfile(healthCareNum);
+            }
+        }
+
+        static bool IsBCExpire(Patient patient)
+        {
+            DateTime now = DateTime.Now;
+            
+            if (now < patient.BCHealthcardExpiryDate)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
             }
         }
 
@@ -382,10 +406,10 @@ namespace HelathCare53
         static void Initialize()
         {
             // Create sample patients
-            Patient omid = new Patient("Omid Najjar", "1992-09-25", "BC09151234");
+            Patient omid = new Patient("Omid Najjar", "1992-09-25", "BC09151234", "0000", "", DateTime.Parse("2022-09-03"));
             omid.Password = "OmidNjr4!@#";
 
-            Patient lenore = new Patient("lenore Najjar", "2013-07-01", "BC09155678");
+            Patient lenore = new Patient("lenore Najjar", "2013-07-01", "BC09155678", "00000", "", DateTime.Parse("2022-09-03"));
             lenore.Password = "LenoreNjr#";
             
             // Add them to patients List
@@ -401,8 +425,8 @@ namespace HelathCare53
             doctors.Add(Arta);
 
             // Create sample appointments
-            Appointment appointment1 = new Appointment(omid, Ali, new DateTime(2023, 9, 10, 10, 30, 0), null);
-            Appointment appointment2 = new Appointment(lenore, Arta, new DateTime(2023, 10, 10, 16, 0, 0), null);
+            Appointment appointment1 = new Appointment(omid, Ali, new DateTime(2023, 9, 10, 10, 30, 0), null, null);
+            Appointment appointment2 = new Appointment(lenore, Arta, new DateTime(2023, 10, 10, 16, 0, 0), null, null);
 
             // Add to appointments List
             appointments.Add(appointment1);
@@ -470,8 +494,6 @@ namespace HelathCare53
             Console.Write("Please, enter your date of birth: ");
             string dob = Console.ReadLine();
 
-            Patient patient = new Patient(name, dob, healthCareNum);
-
             Console.Write("Please enter password: ");
             while(true)
             {
@@ -487,8 +509,6 @@ namespace HelathCare53
 
             }
 
-            patient.Password = password;
-
             while (true)
             {
                 Console.Write("Please enter your recover phone number:");
@@ -501,8 +521,24 @@ namespace HelathCare53
                     Console.Write("your input as phone number is invalid");
                 }
             }
-            patient.PhoneNumber = phoneNumber;
+
+            Console.WriteLine("Please enter your healthcard expration date");
+            while (true)
+            {
+                try
+                {
+                    string bchealthcardexpirydate = Console.ReadLine();
+                    DateTime bcexpire = DateTime.Parse(bchealthcardexpirydate);                  
+                }
+                catch (System.Exception)
+                {
+                    Console.Write("Please, use the right format (YYYY-MM-DD): ");
+                }
+            }
+            
+            Patient patient = new Patient(name, dob, healthCareNum, phoneNumber, password, bcexpire);
             patients.Add(patient);
+
             Console.WriteLine("Patient profile created successfully");
         }
 
@@ -579,9 +615,13 @@ namespace HelathCare53
 
             DateTime dateTime = DateTime.Now.AddDays(choice -1);
 
+            Console.WriteLine("Please, enter your illness category: (General_Check_Up, Dermatology, Orthopetic, Cardiology)");
+            string category = Console.ReadLine();
+            Illness illness = Enum.Parse(typeof(Illness), category);
+
             Inquiry inquiry = SubmitInquiry(patient);
 
-            Appointment appointment = new Appointment(patient, doctor, dateTime, inquiry);
+            Appointment appointment = new Appointment(patient, doctor, dateTime, inquiry, illness);
 
             appointments.Add(appointment);
 
@@ -634,7 +674,6 @@ namespace HelathCare53
                     Console.Write("Please, use the right format (YYYY-MM-DD): ");
                 }
             }
-            
 
             Inquiry inquiry = new Inquiry(
                 patient.Name,
