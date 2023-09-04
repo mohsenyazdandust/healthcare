@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace HelathCare53
 {
@@ -396,9 +397,25 @@ namespace HelathCare53
 
             patient.Password = password;
 
+            while(true){
+            Console.Write("Please enter your recover phone number:");
+            string phoneNumber = Console.ReadLine();
+            if(ValidatePhoneNumber(phoneNumber)){
+                break;
+            }
+            else {
+                Console.Write("your input as phone number is invalid");
+            }
+            }
+            patient.PhoneNumber = phoneNumber;
             patients.Add(patient);
-
             Console.WriteLine("Patient profile created successfully");
+        }
+
+        static bool ValidatePhoneNumber(string phoneNumber){
+
+                string pattern = @"^09[0-9]{9}$" ; 
+                return Regex.IsMatch(phoneNumber ,pattern );
         }
 
         // Book Appointment function
