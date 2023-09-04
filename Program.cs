@@ -28,7 +28,6 @@ namespace HelathCare53
             public DateTime DOB {get; set;}
             public string HealthcareNumber {get; set;}
             public string Password {get; set;} = "";
-            
             public string PhoneNumber{get ; set } = ""
 
 
@@ -186,7 +185,7 @@ namespace HelathCare53
                 {
                     Console.WriteLine("Invalid password");
                 
-                    AskRecoveryOption()
+                    AskRecoveryOption();
                     return;
                 }
                 PatientMenu(patient);
@@ -199,19 +198,16 @@ namespace HelathCare53
             }
         }
         static void AskRecoveryOption(){
-            Console.Write("do you want to send the recover password to Your phone number ?")
-            Console.Write("1. Yes !")
-            Console.Write("2. No")
-            int answer =  Console.ReadLine()
+            Console.Write("Do you want to send the recover password to Your phone number?");
+            Console.Write("1. Yes");
+            Console.Write("2. No");
+            int answer =  Console.ReadLine();
 
             if (answer==1)
             {
-                Console.Write("the code was sent !")
+                Console.Write("Your recovery code sent!");
             }
-            else return
-
-
-    
+            else return;
         }
 
         static void PatientMenu(Patient patient)
