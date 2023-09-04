@@ -12,6 +12,9 @@ namespace HelathCare53
 
         // List to store doctor profiles
         static List<Doctor> doctors = new List<Doctor>();
+        // List to store staff profiles 
+         static List<Staff> staffs = new List<Staff>();
+
 
         // List to store appoinments
         static List<Appointment> appointments =new List<Appointment>();
@@ -50,12 +53,37 @@ namespace HelathCare53
             }
         }
 
+         class Staff
+        {
+            public string Name {get; set;}
+            public string StaffId {get; set;}
+
+            public Staff(string name, string id)
+            {
+                Name = name;
+                StaffId = id;
+            }
+        }
+
         class Appointment
         {
+            enum Illness{
+                General_Check_Up ,
+                Dermatology , 
+
+                Orthopedics , 
+
+                Cardiology 
+
+
+
+
+            }
             public Patient Patient {get; set;}
             public Doctor Doctor {get; set;}
             public DateTime DateTime {get; set;}
             public Inquiry Inquiry {get; set;}
+            public Illness illness{get ; set}
 
             public Appointment(Patient patient, Doctor doctor, DateTime dateTime, Inquiry inquiry)
             {
@@ -202,7 +230,7 @@ namespace HelathCare53
             Console.Write("Do you want to send the recover password to Your phone number?");
             Console.Write("1. Yes");
             Console.Write("2. No");
-            int answer =  Console.ReadLine();
+            int answer =  Int32.Parse(Console.ReadLine());
 
             if (answer==1)
             {
@@ -271,7 +299,7 @@ namespace HelathCare53
         {
             foreach (Doctor doctor in doctors)
             {
-                if (doctor.ID == id)
+                if (doctor.DoctorId == id)
                 {
                     return true;
                 }
@@ -279,11 +307,11 @@ namespace HelathCare53
             return false;
         }
     
-        static Doctor GetDoctor(string id)  // Get patint object
+        static Doctor GetDoctor(string id)  // Get doctor object
         {
             foreach (Doctor doctor in doctors)
             {
-                if (doctor.ID == id)
+                if (doctor.DoctorId == id)
                 {
                     return doctor;
                 }
@@ -294,7 +322,43 @@ namespace HelathCare53
         
         static void StaffLogin()
         {
-            StaffMenu();
+             // staff login logic here by calling its own external function within this function
+            Console.Write("Please, enter your ID: ");
+            string id = Console.ReadLine();
+
+            // Exiting Straff
+            if (IsExistingStaff(id))
+            {
+                Staff staff = GetStaff(id);
+                StaffMenu();
+            }
+            else
+            {
+                Console.WriteLine("Invalid ID, try again...");
+            }
+            
+        }
+        static bool IsExistingStaff(string id)
+        {
+            foreach (Staff staff in staffs)
+            {
+                if (staff.StaffId == id)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        static Doctor GetStaff(string id)  // Get staff object
+        {
+            foreach (Staff staff in staffs)
+            {
+                if (staff.StaffId == id)
+                {
+                    return staff;
+                }
+            }
+            return null;
         }
 
         // Initialize sample data
@@ -597,7 +661,6 @@ namespace HelathCare53
                 // Doctor menu options 
                 Console.WriteLine("1. View Appointments");
                 Console.WriteLine("2. Update Profile");
-                Console.WriteLine("3. ")
                 Console.WriteLine("0. Logout");
 
                 int choice = Int32.Parse(Console.ReadLine());
@@ -671,8 +734,7 @@ namespace HelathCare53
             while(true)
             {
                 // Staff menu options
-                Console.WriteLine("1. View Appointments");
-                Console.WriteLine("2. Update Profile");
+                Console.WriteLine("1. Update Profile");
                 Console.WriteLine("0. Logout");
 
                 int choice = Int32.Parse(Console.ReadLine());
@@ -680,13 +742,9 @@ namespace HelathCare53
                 switch(choice)
                 {
                     case 1:
-                        ViewAppointments();
+                        StaffUpdateProfile();
                         break;
-                    
-                    case 2:
-                        UpdateProfile();
-                        break;
-                    
+                
                     case 0:
                         Console.WriteLine("Logging out...");
                         return;
@@ -697,6 +755,21 @@ namespace HelathCare53
                 }
             }
         }
+        static void StaffUpdateProfile()
+        {
+            Console.Write("Enter your name: (Staff) ");
+            string name = Console.ReadLine();
+
+            Console.Write("Enter Staff ID: ");
+            string id = Console.ReadLine();
+
+            Staff staff = new Staff(name, id);
+
+            staffs.Add(staff);
+
+            Console.WriteLine("Profile updated successfully");
+        }
+
     }
 } 
     
