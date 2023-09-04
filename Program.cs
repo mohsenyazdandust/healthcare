@@ -639,7 +639,7 @@ namespace HelathCare53
             return inquiry;
         }
 
-        // update Profile
+        // Patient Update Profile
         static void UpdateProfile(Patient patient)
         {
             Console.Write("Please, enter your name: ");
@@ -672,7 +672,7 @@ namespace HelathCare53
                         break;
 
                     case 2:
-                        UpdateProfile();
+                        UpdateDoctorProfile();
                         break;
 
                      case 0:
@@ -686,6 +686,19 @@ namespace HelathCare53
             }
         }
 
+
+        // Doctor Update Profile
+        static void UpdateDoctorProfile(Doctor doctor)
+        {
+            Console.Write("Please, enter your name: ");
+            string name = Console.ReadLine();
+
+            doctor.Name = name;
+
+            Console.WriteLine("Profile updated successfully");
+        }
+
+        // View Appointments
         static void ViewAppointments()
         {
             Console.WriteLine("Select an appointment");
@@ -711,6 +724,28 @@ namespace HelathCare53
             Console.WriteLine($"Date: {appointment.DateTime.ToString("yyyy-MM-dd")}");
             Console.WriteLine($"Time: {appointment.DateTime.ToString("hh:mm:tt")}");
             Console.WriteLine($"Location: {locations[0].Name}");
+
+            Console.WriteLine("For review patient's inquiry enter 1: ");
+            choice = Int32.Parse(Console.ReadLine());
+
+            if (choice == 1) {
+                Console.WriteLine($"Date of Birth: {appointment.Inquiry.DateOfBirth}");
+                Console.WriteLine($"Address: {appointment.Inquiry.Address}");
+                Console.WriteLine($"Email: {appointment.Inquiry.Email}");
+                Console.WriteLine($"Phone Number: {appointment.Inquiry.PhoneNummber}");
+                Console.WriteLine($"Emergency Phone Number: {appointment.Inquiry.EmergencyPhoneNumber}");
+                Console.WriteLine($"Symptoms: {appointment.Inquiry.Symptoms}");
+                Console.WriteLine($"Duration of Symptoms: {appointment.Inquiry.DurationOfSymptoms}");
+                Console.WriteLine($"Previous Medical History: {appointment.Inquiry.PreviousMedicalHistory}");
+                Console.WriteLine($"Current Medications: {appointment.Inquiry.CurrentMedications}");
+                Console.WriteLine($"Allergies: {appointment.Inquiry.Allergies}");
+                Console.WriteLine($"Allergies: {appointment.Inquiry.Allergies}");
+                Console.WriteLine($"Allergies: {appointment.Inquiry.Allergies}");
+                Console.WriteLine($"Additonal Comments: {appointment.Inquiry.AdditonalComments}");
+                Console.WriteLine($"Reason for Booking an Appointment: {appointment.Inquiry.PatientExplanation}");
+                Console.WriteLine($"BC Healthcard Expiry Date: {appointment.Inquiry.BCHealthcardExpiryDate}");
+            }
+
         }
 
         static void UpdateProfile() // //////////////////
