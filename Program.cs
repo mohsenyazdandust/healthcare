@@ -149,6 +149,11 @@ namespace HelathCare53
                 Phone = phone;
             }
         }        
+
+        class Result {
+             public string Details {get ; set}
+             
+        }
     
 
         static void Main(string[] args)
@@ -247,6 +252,7 @@ namespace HelathCare53
                 Console.WriteLine("1. Book Appoinment");
                 Console.WriteLine("2. Submit Inquiry");
                 Console.WriteLine("3. Update Profile");
+                Console.WriteLine("4. Review Appoitnents")
                 Console.WriteLine("0. Logout");
 
                 int choice = Int32.Parse(Console.ReadLine());
@@ -268,10 +274,21 @@ namespace HelathCare53
                     case 0:
                         Console.WriteLine("Logging out...");
                         return;
-                    
+                    case 4:
+                            ViewAppointmentsForPatient(patient);
                     default:
                         Console.WriteLine("Invalid choice ");
                         continue;
+                }
+            }
+        }
+        static void ViewAppointmentsForPatient(Patient patient){
+
+             for (int i = 0; i < appointments.Count; i++)
+            {
+                if (appoinments[i].patient == patient  ){
+                    Console.WriteLine($"{appointments[i].Doctor} : {appointments[i].Result}")
+                
                 }
             }
         }
@@ -726,9 +743,14 @@ namespace HelathCare53
             Console.WriteLine($"Location: {locations[0].Name}");
 
             Console.WriteLine("For review patient's inquiry enter 1: ");
+            Console.WriteLine("For update appoitment result enter 2: ");
+
             choice = Int32.Parse(Console.ReadLine());
 
-            if (choice == 1) {
+            switch(choice){
+
+            case 1 :
+            
                 Console.WriteLine($"Date of Birth: {appointment.Inquiry.DateOfBirth}");
                 Console.WriteLine($"Address: {appointment.Inquiry.Address}");
                 Console.WriteLine($"Email: {appointment.Inquiry.Email}");
@@ -744,7 +766,19 @@ namespace HelathCare53
                 Console.WriteLine($"Additonal Comments: {appointment.Inquiry.AdditonalComments}");
                 Console.WriteLine($"Reason for Booking an Appointment: {appointment.Inquiry.PatientExplanation}");
                 Console.WriteLine($"BC Healthcard Expiry Date: {appointment.Inquiry.BCHealthcardExpiryDate}");
+                break;
+
+            case 2 : 
+                    Console.Write("Please enter the  details about appointment result")
+                    string details = Console.ReadLine();
+                    Result result = new Result(details);
+                    break;
+
+            case 3 : 
+                    Cosnole.Write("the input is mismatch !")       
+
             }
+            
 
         }
 
