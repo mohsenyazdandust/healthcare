@@ -16,9 +16,6 @@ namespace HelathCare53
         // List to store appoinments
         static List<Appointment> appointments =new List<Appointment>();
 
-        // List of inquirys
-        static List<Inquiry> inquiries =new List<Inquiry>();
-
         // List of locations
         static List<Location> locations = new List<Location>();
 
@@ -58,12 +55,14 @@ namespace HelathCare53
             public Patient Patient {get; set;}
             public Doctor Doctor {get; set;}
             public DateTime DateTime {get; set;}
+            public Inquiry Inquiry {get; set;}
 
-            public Appointment(Patient patient, Doctor doctor, DateTime dateTime)
+            public Appointment(Patient patient, Doctor doctor, DateTime dateTime, Inquiry inquiry)
             {
                 Patient = patient;
                 Doctor = doctor;
                 DateTime = dateTime;
+                Inquiry = inquiry;
             }
         }
 
@@ -321,8 +320,8 @@ namespace HelathCare53
             doctors.Add(Arta);
 
             // Create sample appointments
-            Appointment appointment1 = new Appointment(omid, Ali, new DateTime(2023, 9, 10, 10, 30, 0));
-            Appointment appointment2 = new Appointment(lenore, Arta, new DateTime(2023, 10, 10, 16, 0, 0));
+            Appointment appointment1 = new Appointment(omid, Ali, new DateTime(2023, 9, 10, 10, 30, 0), null);
+            Appointment appointment2 = new Appointment(lenore, Arta, new DateTime(2023, 10, 10, 16, 0, 0), null);
 
             // Add to appointments List
             appointments.Add(appointment1);
@@ -409,15 +408,17 @@ namespace HelathCare53
 
             patient.Password = password;
 
-            while(true){
-            Console.Write("Please enter your recover phone number:");
-            string phoneNumber = Console.ReadLine();
-            if(ValidatePhoneNumber(phoneNumber)){
-                break;
-            }
-            else {
-                Console.Write("your input as phone number is invalid");
-            }
+            while (true)
+            {
+                Console.Write("Please enter your recover phone number:");
+                string phoneNumber = Console.ReadLine();
+                
+                if(ValidatePhoneNumber(phoneNumber)){
+                    break;
+                }
+                else {
+                    Console.Write("your input as phone number is invalid");
+                }
             }
             patient.PhoneNumber = phoneNumber;
             patients.Add(patient);
@@ -497,15 +498,17 @@ namespace HelathCare53
 
             DateTime dateTime = DateTime.Now.AddDays(choice -1);
 
-            Appointment appointment = new Appointment(patient, doctor, dateTime);
+            Inquiry inquiry = SubmitInquiry(patient);
+
+            Appointment appointment = new Appointment(patient, doctor, dateTime, inquiry);
 
             appointments.Add(appointment);
 
             Console.WriteLine("Appointment booked successfully");
         } 
 
-        // Submit Inquiry
-        static void SubmitInquiry(Patient patient)
+        // Create and Submit Inquiry
+        static Inquiry SubmitInquiry(Patient patient)
         {
             Console.Write("Please, enter your address: ");
             string address = Console.ReadLine();
@@ -538,7 +541,19 @@ namespace HelathCare53
             string patientexplanation = Console.ReadLine();
 
             Console.Write("Please, enter your BC healthcard expiry date (YYYY-MM-DD): ");
-            string bchealthcardexpirydate = Console.ReadLine();
+            while (true) 
+            {
+                try
+                {
+                    string bchealthcardexpirydate = Console.ReadLine();
+                    DateTime bcexpire = DateTime.Parse(bchealthcardexpirydate);                  
+                }
+                catch (System.Exception)
+                {
+                    Console.Write("Please, use the right format (YYYY-MM-DD): ");
+                }
+            }
+            
 
             Inquiry inquiry = new Inquiry(
                 patient.Name,
@@ -554,12 +569,10 @@ namespace HelathCare53
                 allergies,
                 additionalcomments,
                 patientexplanation,
-                DateTime.Parse(bchealthcardexpirydate)
+                bcexpire
             );
 
-            inquiries.Add(inquiry);
-
-            Console.WriteLine("Inquiry submitted successfully");
+            return inquiry;
         }
 
         // update Profile
